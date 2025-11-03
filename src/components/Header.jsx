@@ -27,9 +27,9 @@ function Header({
           aria-controls="mobile-menu-panel"
           aria-label={isMobileMenuOpen ? 'Close navigation' : 'Open navigation'}
         >
-          <span />
-          <span />
-          <span />
+          <span className="mobile-menu-toggle__bar" />
+          <span className="mobile-menu-toggle__bar" />
+          <span className="mobile-menu-toggle__bar" />
         </button>
         <div className="site-header__actions">
           <button

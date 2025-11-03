@@ -34,10 +34,56 @@
       "availability": "in-stock"
     },
     {
+      "name": "Heritage Rose Branches",
+      "type": "rose-branches",
+      "description": "Select the exact number of long-stemmed heirloom roses you need for your own centerpiece or gifting moment.",
+      "price": 12,
+      "image": "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=900&q=80",
+      "alt": "Single blush rose laying on a table.",
+      "bestSeller": false,
+      "ribbon": "Build your bouquet",
+      "palette": ["romantic", "neutral"],
+      "availability": "in-stock",
+      "variants": [
+        {
+          "id": "rose-1",
+          "label": "1 branch",
+          "quantity": 1,
+          "price": 12,
+          "image": "src/assets/images/1rose.jpg",
+          "alt": "Single blush rose in a bud vase."
+        },
+        {
+          "id": "rose-3",
+          "label": "3 branches",
+          "quantity": 3,
+          "price": 32,
+          "image": "src/assets/images/3rose.jpg",
+          "alt": "Three blush roses wrapped in paper."
+        },
+        {
+          "id": "rose-5",
+          "label": "5 branches",
+          "quantity": 5,
+          "price": 50,
+          "image": "src/assets/images/5rose.webp",
+          "alt": "Five long-stemmed roses resting on fabric."
+        },
+        {
+          "id": "rose-25",
+          "label": "25 branches",
+          "quantity": 25,
+          "price": 180,
+          "image": "src/assets/images/25rose.jpg",
+          "alt": "Large bundle of blush roses tied together."
+        }
+      ]
+    },
+        {
       "name": "Lavender Haze",
       "description": "Fragrant lavender, anemone, and delphinium with airy greenery.",
       "price": 58,
-      "image": "https://images.unsplash.com/photo-1508973375-379c182e3812?auto=format&fit=crop&w=700&q=80",
+      "image": "src/assets/images/Lavender Haze.webp",
       "alt": "Bouquet of lavender, anemone, and delphinium tied together.",
       "bestSeller": false,
       "ribbon": "Calming",
@@ -48,7 +94,7 @@
       "name": "Citrus Bloom",
       "description": "Citrus-hued ranunculus, tulips, and billy buttons with mint.",
       "price": 52,
-      "image": "https://images.unsplash.com/photo-1520256862855-398228c41684?auto=format&fit=crop&w=700&q=80",
+      "image": "src/assets/images/Citrus Bloom.webp",
       "alt": "Vibrant bouquet with orange and yellow blooms on a table.",
       "bestSeller": false,
       "ribbon": "Bright & bold",
@@ -59,7 +105,7 @@
       "name": "Evening Tide",
       "description": "Deep blue thistle, lisianthus, and fern for an elegant gesture.",
       "price": 64,
-      "image": "https://images.unsplash.com/photo-1511288594014-c2aa3178edee?auto=format&fit=crop&w=700&q=80",
+      "image": "src/assets/images/Evening Tide.jpg",
       "alt": "Moody bouquet in blue tones with fern foliage.",
       "bestSeller": true,
       "ribbon": "Signature collection",
@@ -70,7 +116,7 @@
       "name": "Wildflower Story",
       "description": "Loose meadow blooms, nigella, and grasses in a hand-tied bundle.",
       "price": 46,
-      "image": "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=700&q=80",
+      "image": "src/assets/images/Wildflower Story.webp",
       "alt": "Wildflower bouquet resting on a chair.",
       "bestSeller": false,
       "ribbon": "Locally grown",

@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 function Shop({
   filteredBouquets,
   filters,
@@ -85,28 +87,38 @@ function Shop({
 
       {filteredBouquets.length > 0 ? (
         <div className="shop-grid">
-          {filteredBouquets.map((bouquet) => (
-            <article key={bouquet.name} className="bouquet-card bouquet-card--shop">
-              <div className="bouquet-card__image">
-                <img src={bouquet.image} alt={bouquet.alt} />
-              </div>
-              <div className="bouquet-card__body">
-                {bouquet.bestSeller && <span className="bouquet-card__badge">Best seller</span>}
-                <h3>{bouquet.name}</h3>
-                <p>{bouquet.description}</p>
-                {bouquet.ribbon && <span className="bouquet-card__ribbon">{bouquet.ribbon}</span>}
-                <span className={`bouquet-card__availability bouquet-card__availability--${bouquet.availability}`}>
-                  {availabilityLabels[bouquet.availability]}
-                </span>
-                <div className="bouquet-card__footer">
-                  <span className="bouquet-card__price">{currencyFormatter.format(bouquet.price)}</span>
-                  <button className="btn btn--secondary" type="button" onClick={() => handleAddToCart(bouquet)}>
-                    Add to cart
-                  </button>
+          {filteredBouquets.map((bouquet) =>
+            bouquet.type === 'rose-branches' && Array.isArray(bouquet.variants) ? (
+              <RoseBundleCard
+                key={bouquet.name}
+                bouquet={bouquet}
+                availabilityLabels={availabilityLabels}
+                currencyFormatter={currencyFormatter}
+                handleAddToCart={handleAddToCart}
+              />
+            ) : (
+              <article key={bouquet.name} className="bouquet-card bouquet-card--shop">
+                <div className="bouquet-card__image">
+                  <img src={bouquet.image} alt={bouquet.alt} />
                 </div>
-              </div>
-            </article>
-          ))}
+                <div className="bouquet-card__body">
+                  {bouquet.bestSeller && <span className="bouquet-card__badge">Best seller</span>}
+                  <h3>{bouquet.name}</h3>
+                  <p>{bouquet.description}</p>
+                  {bouquet.ribbon && <span className="bouquet-card__ribbon">{bouquet.ribbon}</span>}
+                  <span className={`bouquet-card__availability bouquet-card__availability--${bouquet.availability}`}>
+                    {availabilityLabels[bouquet.availability]}
+                  </span>
+                  <div className="bouquet-card__footer">
+                    <span className="bouquet-card__price">{currencyFormatter.format(bouquet.price)}</span>
+                    <button className="btn btn--secondary" type="button" onClick={() => handleAddToCart(bouquet)}>
+                      Add to cart
+                    </button>
+                  </div>
+                </div>
+              </article>
+            ),
+          )}
         </div>
       ) : (
         <div className="shop__empty">
@@ -137,3 +149,67 @@ function Shop({
 }
 
 export default Shop
+
+function RoseBundleCard({ bouquet, availabilityLabels, currencyFormatter, handleAddToCart }) {
+  const [selectedVariantId, setSelectedVariantId] = useState(bouquet.variants[0]?.id)
+
+  const selectedVariant =
+    bouquet.variants.find((variant) => variant.id === selectedVariantId) ?? bouquet.variants[0]
+
+  const handleVariantSelect = (variantId) => {
+    setSelectedVariantId(variantId)
+  }
+
+  const handleAddVariantToCart = () => {
+    if (!selectedVariant) return
+    handleAddToCart({
+      ...bouquet,
+      name: `${bouquet.name} (${selectedVariant.label})`,
+      price: selectedVariant.price,
+      image: selectedVariant.image,
+      alt: selectedVariant.alt ?? bouquet.alt,
+      description: `${selectedVariant.label} of our heirloom roses`,
+    })
+  }
+
+  return (
+    <article className="bouquet-card bouquet-card--shop bouquet-card--rose">
+      <div className="rose-card__media">
+        <img src={selectedVariant.image} alt={selectedVariant.alt ?? bouquet.alt} />
+      </div>
+      <div className="rose-card__body">
+        {bouquet.ribbon && <span className="bouquet-card__badge">{bouquet.ribbon}</span>}
+        <h3>{bouquet.name}</h3>
+        <p>{bouquet.description}</p>
+        <span className={`bouquet-card__availability bouquet-card__availability--${bouquet.availability}`}>
+          {availabilityLabels[bouquet.availability]}
+        </span>
+
+        <div className="rose-card__options" role="group" aria-label="Select number of branches">
+          {bouquet.variants.map((variant) => (
+            <button
+              key={variant.id}
+              type="button"
+              className={`rose-card__option${variant.id === selectedVariant.id ? ' rose-card__option--active' : ''}`}
+              onClick={() => handleVariantSelect(variant.id)}
+            >
+              <span>{variant.label}</span>
+              <span>{currencyFormatter.format(variant.price)}</span>
+            </button>
+          ))}
+        </div>
+
+        <div className="rose-card__footer">
+          <div>
+            <p className="rose-card__quantity-label">Selected:</p>
+            <p className="rose-card__quantity-value">{selectedVariant.label}</p>
+            <p className="rose-card__price">{currencyFormatter.format(selectedVariant.price)}</p>
+          </div>
+          <button className="btn btn--secondary" type="button" onClick={handleAddVariantToCart}>
+            Add to cart
+          </button>
+        </div>
+      </div>
+    </article>
+  )
+}

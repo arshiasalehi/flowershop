@@ -62,10 +62,22 @@ const resolveImageSrc = (imagePath) =>
     ? imagePath
     : localImageMap[imagePath] ?? imagePath
 
-const bouquets = storeData.bouquets.map((bouquet) => ({
-  ...bouquet,
-  image: resolveImageSrc(bouquet.image),
-}))
+const bouquets = storeData.bouquets.map((bouquet) => {
+  const resolvedBouquet = { ...bouquet }
+
+  if (bouquet.image) {
+    resolvedBouquet.image = resolveImageSrc(bouquet.image)
+  }
+
+  if (Array.isArray(bouquet.variants) && bouquet.variants.length > 0) {
+    resolvedBouquet.variants = bouquet.variants.map((variant) => ({
+      ...variant,
+      image: resolveImageSrc(variant.image),
+    }))
+  }
+
+  return resolvedBouquet
+})
 
 const bestSellingBouquets = bouquets.filter((bouquet) => bouquet.bestSeller)
 
