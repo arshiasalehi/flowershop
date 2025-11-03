@@ -6,6 +6,9 @@ import ServiceRequest from './sections/ServiceRequest'
 import heroHighlightImage from './assets/images/peony-banner.jpg'
 import servicesAccentImage from './assets/images/Services section accents.webp'
 import newsletterBackground from './assets/images/Newsletter background.jpg'
+import sunlitMeadowImage from './assets/images/Sunlit Meadow.webp'
+import blushingGardenImage from './assets/images/Blushing Garden.webp'
+import moonlitWhisperImage from './assets/images/Moonlit Whisper.jpg'
 import storeData from './data/store.json'
 
 const navigationLinks = [
@@ -47,10 +50,16 @@ const availabilityOptions = [
   { value: 'pre-order', label: 'Pre-order' },
 ]
 
+const localImageMap = {
+  './assets/images/Sunlit Meadow.webp': sunlitMeadowImage,
+  './assets/images/Blushing Garden.webp': blushingGardenImage,
+  './assets/images/Moonlit Whisper.jpg': moonlitWhisperImage,
+}
+
 const resolveImageSrc = (imagePath) =>
   imagePath.startsWith('http://') || imagePath.startsWith('https://')
     ? imagePath
-    : new URL(imagePath, import.meta.url).href
+    : localImageMap[imagePath] ?? imagePath
 
 const bouquets = storeData.bouquets.map((bouquet) => ({
   ...bouquet,
