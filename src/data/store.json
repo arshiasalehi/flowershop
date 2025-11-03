@@ -1,0 +1,95 @@
+{
+  "bouquets": [
+    {
+      "name": "Sunlit Meadow",
+      "description": "Sunflowers, ranunculus, and chamomile for a bright start to any day.",
+      "price": 48,
+      "image": "./assets/images/Sunlit Meadow.webp",
+      "alt": "Sunlit Meadow bouquet with sunflowers, ranunculus, and chamomile.",
+      "bestSeller": true,
+      "ribbon": "Seasonal favorite",
+      "palette": ["warm", "vibrant"],
+      "availability": "in-stock"
+    },
+    {
+      "name": "Blushing Garden",
+      "description": "Garden roses, peonies, and lilac with a soft lavender ribbon.",
+      "price": 62,
+      "image": "./assets/images/Blushing Garden.webp",
+      "alt": "Blushing Garden bouquet featuring garden roses, peonies, and lilac.",
+      "bestSeller": true,
+      "ribbon": "Event ready",
+      "palette": ["pastel", "romantic"],
+      "availability": "limited"
+    },
+    {
+      "name": "Moonlit Whisper",
+      "description": "White orchids, eucalyptus, and dusty miller in an airy arrangement.",
+      "price": 55,
+      "image": "./assets/images/Moonlit Whisper.jpg",
+      "alt": "Moonlit Whisper bouquet with white orchids, eucalyptus, and dusty miller.",
+      "bestSeller": true,
+      "ribbon": "Evening classic",
+      "palette": ["cool", "neutral"],
+      "availability": "in-stock"
+    },
+    {
+      "name": "Lavender Haze",
+      "description": "Fragrant lavender, anemone, and delphinium with airy greenery.",
+      "price": 58,
+      "image": "https://images.unsplash.com/photo-1508973375-379c182e3812?auto=format&fit=crop&w=700&q=80",
+      "alt": "Bouquet of lavender, anemone, and delphinium tied together.",
+      "bestSeller": false,
+      "ribbon": "Calming",
+      "palette": ["cool", "pastel"],
+      "availability": "pre-order"
+    },
+    {
+      "name": "Citrus Bloom",
+      "description": "Citrus-hued ranunculus, tulips, and billy buttons with mint.",
+      "price": 52,
+      "image": "https://images.unsplash.com/photo-1520256862855-398228c41684?auto=format&fit=crop&w=700&q=80",
+      "alt": "Vibrant bouquet with orange and yellow blooms on a table.",
+      "bestSeller": false,
+      "ribbon": "Bright & bold",
+      "palette": ["warm", "vibrant"],
+      "availability": "in-stock"
+    },
+    {
+      "name": "Evening Tide",
+      "description": "Deep blue thistle, lisianthus, and fern for an elegant gesture.",
+      "price": 64,
+      "image": "https://images.unsplash.com/photo-1511288594014-c2aa3178edee?auto=format&fit=crop&w=700&q=80",
+      "alt": "Moody bouquet in blue tones with fern foliage.",
+      "bestSeller": true,
+      "ribbon": "Signature collection",
+      "palette": ["cool", "dramatic"],
+      "availability": "limited"
+    },
+    {
+      "name": "Wildflower Story",
+      "description": "Loose meadow blooms, nigella, and grasses in a hand-tied bundle.",
+      "price": 46,
+      "image": "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&w=700&q=80",
+      "alt": "Wildflower bouquet resting on a chair.",
+      "bestSeller": false,
+      "ribbon": "Locally grown",
+      "palette": ["neutral", "wild"],
+      "availability": "in-stock"
+    }
+  ],
+  "services": [
+    {
+      "title": "Same-Day Delivery",
+      "text": "Order by 2pm and we will hand deliver your bouquet across the city."
+    },
+    {
+      "title": "Weekly Subscriptions",
+      "text": "Fresh stems curated for your home, workspace, or lobby every week."
+    },
+    {
+      "title": "Custom Events",
+      "text": "From intimate dinners to grand openings, we tailor floral designs for you."
+    }
+  ]
+}
