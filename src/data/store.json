@@ -84,12 +84,16 @@
       "text": "Order by 2pm and we will hand deliver your bouquet across the city."
     },
     {
-      "title": "Weekly Subscriptions",
+      "title": "Weekly/biweekly Subscriptions",
       "text": "Fresh stems curated for your home, workspace, or lobby every week."
     },
     {
       "title": "Custom Events",
       "text": "From intimate dinners to grand openings, we tailor floral designs for you."
+    },
+    {
+      "title": "Occasion Reminder",
+      "text": "Never miss a special occasion with our personalized flower delivery reminders."
     }
   ]
 }
