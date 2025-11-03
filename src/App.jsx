@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import './App.css'
 import Header from './components/Header'
 import Footer from './components/Footer'
@@ -102,6 +102,8 @@ function App() {
   const [cart, setCart] = useState([])
   const [filters, setFilters] = useState({ price: 'all', palette: 'all', availability: 'all' })
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [toastMessage, setToastMessage] = useState(null)
+  const toastTimeoutRef = useRef(null)
 
   const paletteOptions = useMemo(() => {
     const values = new Set()
@@ -153,8 +155,10 @@ function App() {
       }
       return [...prev, { ...bouquet, quantity: 1 }]
     })
+    triggerToast(`Added ${bouquet.name} to your cart`)
   }
 
+  const handleEmptyCart = () => setCart([])
   const handleQuantityChange = (name, delta) => {
     setCart((prev) =>
       prev
@@ -194,6 +198,13 @@ function App() {
   }
 
   const resetFilters = () => setFilters({ price: 'all', palette: 'all', availability: 'all' })
+  const triggerToast = (message) => {
+    setToastMessage(message)
+    if (toastTimeoutRef.current) {
+      clearTimeout(toastTimeoutRef.current)
+    }
+    toastTimeoutRef.current = setTimeout(() => setToastMessage(null), 2600)
+  }
 
   const cartButtonLabel =
     cartItemCount > 0
@@ -289,8 +300,24 @@ function App() {
     }
   }, [isMobileMenuOpen])
 
+  useEffect(() => {
+    return () => {
+      if (toastTimeoutRef.current) {
+        clearTimeout(toastTimeoutRef.current)
+      }
+    }
+  }, [])
+
   return (
     <div className="app" id="top">
+      {toastMessage && (
+        <div className="toast" role="status" aria-live="polite">
+          <span>{toastMessage}</span>
+          <button type="button" aria-label="Dismiss notification" onClick={() => setToastMessage(null)}>
+            ×
+          </button>
+        </div>
+      )}
       <Header
         cartButtonLabel={cartButtonLabel}
         cartItemCount={cartItemCount}
@@ -458,6 +485,7 @@ function App() {
             currencyFormatter={currencyFormatter}
             handleQuantityChange={handleQuantityChange}
             handleRemoveFromCart={handleRemoveFromCart}
+            handleEmptyCart={handleEmptyCart}
             showShop={showShop}
           />
         )}
