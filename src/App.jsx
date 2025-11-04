@@ -11,6 +11,14 @@ import newsletterBackground from './assets/images/Newsletter background.jpg'
 import sunlitMeadowImage from './assets/images/Sunlit Meadow.webp'
 import blushingGardenImage from './assets/images/Blushing Garden.webp'
 import moonlitWhisperImage from './assets/images/Moonlit Whisper.jpg'
+import lavenderHazeImage from './assets/images/Lavender Haze.webp'
+import citrusBloomImage from './assets/images/Citrus Bloom.webp'
+import eveningTideImage from './assets/images/Evening Tide.jpg'
+import wildflowerStoryImage from './assets/images/Wildflower Story.webp'
+import roseOneImage from './assets/images/1rose.jpg'
+import roseThreeImage from './assets/images/3rose.jpg'
+import roseFiveImage from './assets/images/5rose.webp'
+import roseTwentyFiveImage from './assets/images/25rose.jpg'
 import storeData from './data/store.json'
 
 const navigationLinks = [
@@ -55,6 +63,14 @@ const localImageMap = {
   './assets/images/Sunlit Meadow.webp': sunlitMeadowImage,
   './assets/images/Blushing Garden.webp': blushingGardenImage,
   './assets/images/Moonlit Whisper.jpg': moonlitWhisperImage,
+  'src/assets/images/Lavender Haze.webp': lavenderHazeImage,
+  'src/assets/images/Citrus Bloom.webp': citrusBloomImage,
+  'src/assets/images/Evening Tide.jpg': eveningTideImage,
+  'src/assets/images/Wildflower Story.webp': wildflowerStoryImage,
+  'src/assets/images/1rose.jpg': roseOneImage,
+  'src/assets/images/3rose.jpg': roseThreeImage,
+  'src/assets/images/5rose.webp': roseFiveImage,
+  'src/assets/images/25rose.jpg': roseTwentyFiveImage,
 }
 
 const resolveImageSrc = (imagePath) =>
