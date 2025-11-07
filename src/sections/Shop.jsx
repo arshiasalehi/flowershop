@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import CartButton from '../components/CartButton'
 
 function Shop({
   filteredBouquets,
@@ -18,6 +19,29 @@ function Shop({
   showCart,
   showCatalog,
 }) {
+  useEffect(() => {
+    if (typeof window === 'undefined') return undefined
+    const cards = document.querySelectorAll('.bouquet-card--shop')
+    if (!cards.length) return undefined
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('bouquet-card--visible')
+          } else {
+            entry.target.classList.remove('bouquet-card--visible')
+          }
+        })
+      },
+      { threshold: 0.3 },
+    )
+
+    cards.forEach((card) => observer.observe(card))
+
+    return () => observer.disconnect()
+  }, [filteredBouquets.length])
+
   return (
     <section className="section shop" id="shop">
       <div className="section__heading">
@@ -111,9 +135,7 @@ function Shop({
                   </span>
                   <div className="bouquet-card__footer">
                     <span className="bouquet-card__price">{currencyFormatter.format(bouquet.price)}</span>
-                    <button className="btn btn--secondary" type="button" onClick={() => handleAddToCart(bouquet)}>
-                      Add to cart
-                    </button>
+                    <CartButton onClick={() => handleAddToCart(bouquet)} />
                   </div>
                 </div>
               </article>
@@ -205,9 +227,7 @@ function RoseBundleCard({ bouquet, availabilityLabels, currencyFormatter, handle
             <p className="rose-card__quantity-value">{selectedVariant.label}</p>
             <p className="rose-card__price">{currencyFormatter.format(selectedVariant.price)}</p>
           </div>
-          <button className="btn btn--secondary" type="button" onClick={handleAddVariantToCart}>
-            Add to cart
-          </button>
+          <CartButton onClick={handleAddVariantToCart} />
         </div>
       </div>
     </article>

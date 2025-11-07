@@ -74,19 +74,19 @@ function Cart({
                       <div className="cart-item__quantity">
                         <button
                           type="button"
+                          className="cart-item__quantity-btn cart-item__quantity-btn--decrease"
+                          data-symbol="−"
                           onClick={() => handleQuantityChange(item.name, -1)}
                           aria-label={`Decrease quantity of ${item.name}`}
-                        >
-                          −
-                        </button>
+                        />
                         <span aria-live="polite">{item.quantity}</span>
                         <button
                           type="button"
+                          className="cart-item__quantity-btn cart-item__quantity-btn--increase"
+                          data-symbol="+"
                           onClick={() => handleQuantityChange(item.name, 1)}
                           aria-label={`Increase quantity of ${item.name}`}
-                        >
-                          +
-                        </button>
+                        />
                       </div>
                       <button className="cart-item__remove" type="button" onClick={() => handleRemoveFromCart(item.name)}>
                         Remove

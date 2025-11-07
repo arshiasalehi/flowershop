@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import './App.css'
 import Header from './components/Header'
+import BlurText from './components/BlurText'
+import CartButton from './components/CartButton'
 import Footer from './components/Footer'
 import Shop from './sections/Shop'
 import Cart from './sections/Cart'
@@ -19,6 +21,7 @@ import roseOneImage from './assets/images/1rose.jpg'
 import roseThreeImage from './assets/images/3rose.jpg'
 import roseFiveImage from './assets/images/5rose.webp'
 import roseTwentyFiveImage from './assets/images/25rose.jpg'
+import peachImage from './assets/images/peach.png'
 import storeData from './data/store.json'
 
 const navigationLinks = [
@@ -120,6 +123,28 @@ function App() {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [toastMessage, setToastMessage] = useState(null)
   const toastTimeoutRef = useRef(null)
+  const peachRainDrops = useMemo(
+    () =>
+      Array.from({ length: 24 }, (_, index) => {
+        const size = 52 + Math.random() * 34
+        const duration = 16 + Math.random() * 10
+        const delay = Math.random() * duration
+        const left = Math.random() * 100
+        const horizontalShift = Math.random() * 80 - 40
+        const opacity = 0.35 + Math.random() * 0.25
+
+        return {
+          id: `peach-${index}`,
+          size: `${size}px`,
+          duration: `${duration}s`,
+          delay: `-${delay}s`,
+          left: `${left}%`,
+          horizontalShift: `${horizontalShift}px`,
+          opacity: opacity.toFixed(2),
+        }
+      }),
+    [],
+  )
 
   const paletteOptions = useMemo(() => {
     const values = new Set()
@@ -220,6 +245,11 @@ function App() {
       clearTimeout(toastTimeoutRef.current)
     }
     toastTimeoutRef.current = setTimeout(() => setToastMessage(null), 2600)
+  }
+  const handleNewsletterSubmit = (event) => {
+    event.preventDefault()
+    triggerToast('Thanks for joining the newsletter!')
+    event.target.reset()
   }
 
   const cartButtonLabel =
@@ -324,6 +354,34 @@ function App() {
     }
   }, [])
 
+  useEffect(() => {
+    if (view !== 'catalog') {
+      return undefined
+    }
+
+    const cards = document.querySelectorAll('.bouquet-card--catalog')
+    if (!cards.length) {
+      return undefined
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('bouquet-card--visible')
+          } else {
+            entry.target.classList.remove('bouquet-card--visible')
+          }
+        })
+      },
+      { threshold: 0.35 },
+    )
+
+    cards.forEach((card) => observer.observe(card))
+
+    return () => observer.disconnect()
+  }, [view, bestSellingBouquets.length])
+
   return (
     <div className="app" id="top">
       {toastMessage && (
@@ -349,8 +407,28 @@ function App() {
 
       <main>
         {view === 'catalog' && (
+          <div className="peach-rain" aria-hidden="true">
+            {peachRainDrops.map((drop) => (
+              <div
+                key={drop.id}
+                className="peach-preview peach-rain__petal"
+                style={{
+                  left: drop.left,
+                  animationDelay: drop.delay,
+                  animationDuration: drop.duration,
+                  '--peach-horizontal-shift': drop.horizontalShift,
+                  '--peach-opacity': drop.opacity,
+                  '--peach-size': drop.size,
+                }}
+              >
+                <img src={peachImage} alt="" className="peach-preview__image" loading="lazy" />
+              </div>
+            ))}
+          </div>
+        )}
+        {view === 'catalog' && (
           <>
-            <section className="hero" id="hero">
+            <section className="hero content-animate" id="hero" style={{ '--content-animation-delay': '40ms' }}>
               <div className="hero__copy">
                 <p className="hero__eyebrow">Bloom &amp; Branch</p>
                 <h1>Flowers that make every moment bloom</h1>
@@ -383,7 +461,7 @@ function App() {
               </div>
             </section>
 
-            <section className="section" id="bouquets">
+            <section className="section content-animate" id="bouquets" style={{ '--content-animation-delay': '140ms' }}>
               <div className="section__heading">
                 <p className="section__eyebrow">Best sellers</p>
                 <h2>Our top bouquets of the season</h2>
@@ -394,7 +472,7 @@ function App() {
               </div>
               <div className="bouquet-grid">
                 {bestSellingBouquets.map((bouquet) => (
-                  <article key={bouquet.name} className="bouquet-card">
+                  <article key={bouquet.name} className="bouquet-card bouquet-card--catalog">
                     <div className="bouquet-card__image">
                       <img src={bouquet.image} alt={bouquet.alt} />
                     </div>
@@ -409,13 +487,7 @@ function App() {
                       </span>
                       <div className="bouquet-card__footer">
                         <span className="bouquet-card__price">{currencyFormatter.format(bouquet.price)}</span>
-                        <button
-                          className="btn btn--secondary"
-                          type="button"
-                          onClick={() => handleAddToCart(bouquet)}
-                        >
-                          Add to cart
-                        </button>
+                        <CartButton onClick={() => handleAddToCart(bouquet)} />
                       </div>
                     </div>
                   </article>
@@ -423,7 +495,11 @@ function App() {
               </div>
             </section>
 
-            <section className="section section--accent" id="services">
+            <section
+              className="section section--accent content-animate"
+              id="services"
+              style={{ '--content-animation-delay': '220ms' }}
+            >
               <div className="section__heading">
                 <p className="section__eyebrow">Services</p>
                 <h2>More ways to bring flowers into your routine</h2>
@@ -436,14 +512,24 @@ function App() {
               >
                 {services.map((service) => (
                   <article key={service.title} className="service-card">
-                    <h3>{service.title}</h3>
-                    <p>{service.text}</p>
+                    <h3>
+                      <BlurText text={service.title} animateBy="chars" delay={60} />
+                    </h3>
+                    <p>
+                      <BlurText
+                        text={service.text}
+                        animateBy="words"
+                        delay={80}
+                        direction="bottom"
+                        threshold={0.2}
+                      />
+                    </p>
                   </article>
                 ))}
               </div>
             </section>
 
-            <section className="section" id="newsletter">
+            <section className="section content-animate" id="newsletter" style={{ '--content-animation-delay': '300ms' }}>
               <div
                 className="newsletter"
                 style={{
@@ -455,13 +541,24 @@ function App() {
                   <h2>Seasonal stems in your inbox</h2>
                   <p>Get first dibs on limited blooms, care tips, and design workshops.</p>
                 </div>
-                <form className="newsletter__form">
+                <form className="newsletter__form" onSubmit={handleNewsletterSubmit}>
                   <label className="sr-only" htmlFor="email">
                     Email address
                   </label>
                   <input id="email" type="email" placeholder="you@example.com" required />
-                  <button className="btn btn--primary" type="submit">
-                    Subscribe
+                  <button className="newsletter__submit flying-button flying-button--newsletter" type="submit">
+                    <span className="svg-wrapper" aria-hidden="true">
+                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path
+                          d="M3 12L21 3L15 21L11 13L3 12Z"
+                          stroke="currentColor"
+                          strokeWidth="1.8"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </span>
+                    <span>Subscribe</span>
                   </button>
                 </form>
               </div>
@@ -470,44 +567,52 @@ function App() {
         )}
 
         {view === 'shop' && (
-          <Shop
-            filteredBouquets={filteredBouquets}
-            filters={filters}
-            onFilterChange={handleFilterChange}
-            onResetFilters={resetFilters}
-            filtersAreDefault={filtersAreDefault}
-            priceOptions={priceOptions}
-            paletteOptions={paletteOptions}
-            availabilityOptions={availabilityOptions}
-            availabilityLabels={availabilityLabels}
-            paletteLabels={paletteLabels}
-            humanize={humanize}
-            handleAddToCart={handleAddToCart}
-            currencyFormatter={currencyFormatter}
-            cartItemCount={cartItemCount}
-            showCart={showCart}
-            showCatalog={showCatalog}
-          />
+          <div className="content-animate">
+            <Shop
+              filteredBouquets={filteredBouquets}
+              filters={filters}
+              onFilterChange={handleFilterChange}
+              onResetFilters={resetFilters}
+              filtersAreDefault={filtersAreDefault}
+              priceOptions={priceOptions}
+              paletteOptions={paletteOptions}
+              availabilityOptions={availabilityOptions}
+              availabilityLabels={availabilityLabels}
+              paletteLabels={paletteLabels}
+              humanize={humanize}
+              handleAddToCart={handleAddToCart}
+              currencyFormatter={currencyFormatter}
+              cartItemCount={cartItemCount}
+              showCart={showCart}
+              showCatalog={showCatalog}
+            />
+          </div>
         )}
 
         {view === 'service' && (
-          <ServiceRequest contactInfo={contactInfo} formspreeEndpoint={formspreeEndpoint} />
+          <div className="content-animate">
+            <ServiceRequest contactInfo={contactInfo} formspreeEndpoint={formspreeEndpoint} />
+          </div>
         )}
 
         {view === 'cart' && (
-          <Cart
-            cart={cart}
-            cartSubtotal={cartSubtotal}
-            currencyFormatter={currencyFormatter}
-            handleQuantityChange={handleQuantityChange}
-            handleRemoveFromCart={handleRemoveFromCart}
-            handleEmptyCart={handleEmptyCart}
-            showShop={showShop}
-          />
+          <div className="content-animate">
+            <Cart
+              cart={cart}
+              cartSubtotal={cartSubtotal}
+              currencyFormatter={currencyFormatter}
+              handleQuantityChange={handleQuantityChange}
+              handleRemoveFromCart={handleRemoveFromCart}
+              handleEmptyCart={handleEmptyCart}
+              showShop={showShop}
+            />
+          </div>
         )}
       </main>
 
-      <Footer contactInfo={contactInfo} />
+      <div className="content-animate" style={{ '--content-animation-delay': '200ms' }}>
+        <Footer contactInfo={contactInfo} />
+      </div>
     </div>
   )
 }
